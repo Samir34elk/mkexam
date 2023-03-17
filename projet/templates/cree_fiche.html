@@ -1,0 +1,76 @@
+{%extends 'base.html'%}
+
+{% block content %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script> 
+
+//cette fonction attribut une valeur aux input
+function setmesum(){
+    mydoc=document.getElementById("ques");
+    console.log(mydoc)
+    li=mydoc.getElementsByTagName("label");
+    console.log(li)
+    for(l of li){
+        
+        
+        console.log(l.querySelector("input"));
+        
+        const q=l.innerText.split("\n")[0];
+        const qq=q.substr(10,q.length)
+        l.querySelector("input").setAttribute("value",qq.split(' ')[0])}
+    
+}
+
+</script>
+<div class="form-creer-fiche">
+    <h1>Creer un examen</h1>
+    
+<form id="form-cree-eti" action="/generer_fiche" method="POST">
+    
+    <div class="form-group etiquette">
+        <div class="select-etiquette">
+            <h3>choisissez les étiquettes</h3>
+            <select class="select-eti" name="etis" id="eti-select" multiple>
+                {%for e in etiquettes %}
+                <option id="hoho">{{e}}</option>
+                {%endfor%}
+            </select>
+        </div>
+        <br/>
+        <button class="btn-eti" type="submit" value="Ajouter une Étiquette" >afficher les questions de ces étiquettes</button>
+    </div>
+</form>
+<form id="form-cree-que" action="/generer_fiche" method="POST">
+
+    <div class="choixques" id="ques" name="ques">
+
+        
+        {% for question in questions %}
+        
+        <label class="une-question" id="unequestion">Question: {{question[0][0]}}
+            <input type="checkbox" id="quest" name="quest" onclick="setmesum()">
+            <span class="checkmark"></span>
+            <ul>Reponses: 
+                {%for r in reponses[question[0][0]]%}
+                <li id="unereponses">{{r}}</li>
+                {%endfor%}
+            </ul>
+        </label>
+        
+        
+        {%endfor%}
+        
+    </div>
+    <br/>
+    <div class="titre">
+        <input type="text" name="titre" id="titre"required>
+        <span></span>
+        <label for="titre">Titre de l'examen</label>
+    </div>
+    
+    <div>
+        <button class="btn-examen" type="submit" value="choisir une question" >choisir ces questions</button>
+    </div>
+</form>
+</div>
+{% endblock %} 

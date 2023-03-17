@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-center mt-3">
+        <h3>Code de la séquence : <strong id="idS">{{NumeroSalon}}</strong></h3>
+    </div>
+    <div class="d-flex flex-row justify-content-between mx-5">
+        <div > Question : <span id="IndexOrdre" >0</span>/{{questions[-1][0][0]}} </div>
+        <button class="btn btn-warning  end-0" onclick="NextQ(this)"> Next </button>
+    </div>
+    <ul id="listeQ">
+        {% for question in questions :%}
+        <li class="question" id="{{question[0][0]}}" hidden><textarea>{{question[1]}}</textarea><span>{{question[0][1]}}</span><ul> {% for reponse in question[2] %} <li><textarea name="{{reponse[2]}}"> {{reponse[0]}} </textarea><span>{{reponse[1]}} </span></li> {%endfor%}   </ul><div id="typeQ">{{question[3]}}</div></li>
+        {%endfor%}
+    </ul>
+    <div class="card mx-5">
+        <div class="card-header d-flex flex-row justify-content-between">
+            <h3 class="card-title">Question</h3>
+            <input type="checkbox" id="afficheQ" onchange="affichage()" >
+        </div>
+        <div class="mx-5 mt-2" id="Qafficher">
+        <h2 class="m-5">En attente de lancement ...</h2>
+        </div>
+    </div>
+
+    <div class="card mt-2 mx-5">
+        <div class="card-header d-flex flex-row justify-content-between">
+            <h3 class="card-title">Réponses</h3>
+            <input type="checkbox" id="afficheR" onchange="affichage()">
+        </div>
+        <div class="list-group list-group-flush" id="Rafficher">
+        
+        </div>
+    </div>
+
+    <div id="ReponsesRecues" hidden></div>
+    
+    <div class="d-flex flex-row justify-content-around position-absolute bottom-0 mb-5 w-100 ">
+        <button id="afficheRepDirect" class="btn btn-warning px-4 " onclick="afficheRepDirect(this)"> Affichage Réponses <br> en direct </button>
+        <button id="StopRep" class="btn btn-danger px-5" onclick="StopRep(this)"> Stoppe <br> Réponses </button>
+        <button id="afficheCorrection" class="btn btn-success px-5" onclick="afficheCorrection(this)">Affichage <br> Correction </button>
+        <div class=" border rounded border-dark-subtle ">
+            <p class="m-2"> Connectés : <strong id="NbConnecter">0</strong> </p>
+            <p class="m-2"> Réponses : <strong id="NbReponses">0</strong> </p>
+        </div>
+        <button class="btn btn-danger p-3" onclick="quitterRoom()">Quitter</button>
+    </div>
+    
+
+    <script>creeSalon();</script>
+{% endblock %}
+
+

@@ -1,0 +1,44 @@
+{%extends 'base.html'%}
+
+
+{% block content %}
+<div class="ajouterLesEtudiants">
+    <h1>ajouter Les Etudiants</h1>
+<form action="/ajouterLesEtudiants" method="post"  enctype="multipart/form-data">
+    <label for="listeEtu">Inserer  la liste des  Etudiants</label>
+    <input type="file"  name="file" accept=".csv" ><br/>
+    <button type="submit"> Ajouter</button>
+</form>
+
+
+{% if ajoutée %}
+<div>
+    <h3>Voici la liste des étudiants ajoutée</h3>
+    <h5>vous avez {{nb}} étudiants</h5>
+    <table>
+        <thead>
+            <tr>
+                <th>Numéro Etudiant</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for etu in data%}
+            <tr>
+                {%for inf in etu %}
+                <td>{{inf}}</td>
+                {%endfor%}
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+{%endif%}
+</div>
+
+
+
+
+
+{% endblock %} 

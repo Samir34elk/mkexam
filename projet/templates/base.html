@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html class="h-100" lang="fr">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <!-- titre de la page -->
+    <title>MkExam - {{ titrePage }}</title>
+
+
+<script src="/static/biblio/socket.io/client-dist/socket.io.min.js"></script>
+
+
+    <!-- source pour notre fichier css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css') }}">
+
+    <!-- source pour notre fichier js -->
+    <script src="{{url_for('static',filename='js/script.js')}}"></script>
+
+    <!-- source pour la bibliotheque mermaid -->
+    <script src="/static/biblio/mermaid/dist/mermaid.js"></script>
+
+
+    <!-- source pour la bibliotheque markdown -->
+    <script src="/static/biblio/marked/marked.min.js"></script>
+
+    <!-- source pour la bibliotheque highlight -->
+    <link rel="stylesheet" href="/static/biblio/highlight.js/styles/default.min.css">
+    <script src="/static/biblio/highlight.js/highlight.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="/static/biblio/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="/static/biblio/bootstrap/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+
+    
+    <!-- bout de code qui permet de mettre un $ au lieu de 2 $  -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                packages: ['base', 'newcommand', 'configMacros']
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+        </script>
+    <script type="text/javascript" 
+        src="/static/biblio/mathjax/es5/tex-chtml-full.js">
+    </script>
+
+
+    <!--source pour le favicon -->
+    <link rel="shortcut icon" href="{{url_for('static',filename='img/favicon.ico')}}" type="image/x-icon">
+
+</head>
+<body>
+    <header>
+        <!--navbar avec mise en page bootstrap -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <!--logo de notre site ur la navbar, cliquable qui renvoie vers la fonction acceuil()-->
+                <a class="navbar-brand" href="{{ url_for('acceuil') }}"><img src="{{ url_for('static', filename='img/logo.png')}}" alt="logo" width="75"></a>
+                <!-- On verifie si un utilisateur est connecter pour gerer l'affichage des item en fonction de ce paramètre-->
+                {% block navbar %}
+                <button class="navbar-toggler navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                {% if session['connecter'] and session['role'] == 'professeur' : %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Mon Espace Édition
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ url_for('ajout_question') }}">Nouvelle question</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('questions') }}">Mes Questions</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            LiveExam
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ url_for('LiveExam') }}">Lancer une séquence</a></li>
+                            </ul>
+                        </li>                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Paramètres
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a  class="dropdown-item" href="{{ url_for('ajouterLesEtudiants') }}">Ajouter des Étudiants</a></li>
+                                <li><a class="dropdown-item" href="#">Mes Informations</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}">se déconnecter</a>
+                        </li>
+                {% else : %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('login') }}">se connecter</a>
+                        </li>
+                {% endif %}
+                    </ul>
+                    {{session['prenom']}} {{session['nom']}} 
+                </div>
+                {% endblock %}
+            </div>
+        </nav>
+    </header>
+    <section>
+        {%block content %}{%endblock%}
+    </section>
+    <footer>
+        <p class="text-center">Copyright 2023 </p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,158 @@
+{%extends 'base.html'%}
+
+{% block content %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script> 
+var  checkedQuestions = [];
+function setmesum(){
+    mydoc=document.getElementById("nosques");
+    console.log(mydoc);
+    li=mydoc.getElementsByTagName("li");
+    console.log(li);
+    for(l of li){
+        if (l.querySelector("input") !== null){
+        console.log(l.innerText);
+
+        
+        const q=l.innerText.split("\n")[0];
+        l.querySelector("input").setAttribute("value",q)
+        console.log(l.querySelector("input"));
+        //l.innerHTML.setAttribute("value","mama");
+    }
+    }
+}
+/*function setvalue(){
+    division=getElementsById("ques");
+    listinput=division.getElementsById ("nosques");
+    listvalue=listinput.getElementById["p"];
+    for(i=0;i<listinput.length;i++){
+        console.log(listinput[i],listvalue[i]);
+        listinput[i].setAttribute("value",listvalue[i]);
+    }
+    
+
+}
+*/
+function getChecked_Questions(valeur){
+  const questions = document.getElementsByName("quest");
+  
+    if (valeur.checked) {
+        checkedQuestions.push(valeur.value);
+    }  
+    else{
+        checkedQuestions=checkedQuestions.filter((question)=>question!==valeur.value)
+    }
+    
+  
+    console.log(checkedQuestions);
+}
+  
+function afficherOrdre(valeur){
+  
+    console.log(valeur);
+    order_box=document.getElementById(valeur.value);
+    console.log(order_box);
+    order_box.value=Number(checkedQuestions.indexOf(valeur.value,0))+1;
+    }
+    
+    function sendList(){
+       checkedque=document.getElementById("checkedquestions");
+       console.log(checkedque);
+
+       checkedque.value=checkedQuestions;
+       console.log(checkedque.value)
+    }
+
+function afficherQuestions(){
+    var mesquestionsstring=document.getElementById("questrepo").innerText;
+    var mesquestionsformat=mesquestionsstring.toString().replace("\'","\"")
+    var qrs = JSON.parse(mesquestionsformat);
+    console.log(qrs)
+    selected=$("#etiquette-choisi :selected").text();
+    console.log(selected);
+    balise_questions=document.getElementById("nosques");
+    for (qr in qrs){
+        console.log(qrs[qr]);
+        for (r in qrs[qr]){
+        console.log(qrs[qr][r]);
+    }}
+    
+    
+
+    
+}
+
+
+    
+
+
+</script>
+{%if not session['role']=='eleve' %}
+{%if hasNoQues%}
+<h3>Il faut d'abord ajouter une question pour editer une séquence!</h3>
+<a href="{{ url_for('ajout_question') }}">ajouter une question</a>
+{%else%}
+<form action="/creerSequence" method="POST">
+    
+<div class="form-group etiquette">
+    <label for="etiquette-choisi">Choisir une étiquette:</label>
+    <div>
+        
+    <select name="etiquette-choisi" id="etiquette-choisi" multiple>
+
+        {%for e in etiquettes %}
+        <option id="hoho">{{e}}</option>
+        {%endfor%}
+ 
+    </select>
+    <button type="submit" value="Ajouter une Étiquette">afficher les questions dans cette etiquette
+</div>
+
+</div>
+</form>
+<form action="/creerSequence" method="POST">
+{% if quest_rep%}
+    <div id="ques" name="ques">
+        <ul id="nosques">
+        {% for question in quest_rep.keys() %}
+        <input disabled id="{{question[0]}}" class="ordre">
+        <li><input name="question-choisi" type="checkbox" id="quest" onclick="setmesum();getChecked_Questions(this);afficherOrdre(this),sendList()">{{question[0]}}
+        <ul>
+            {% for reponses in quest_rep[question] %}
+            <li >{{reponses[0]}}
+                ({{reponses[1]==1}})
+            </li>
+        </li>
+            {%endfor%}
+        </ul>
+        {%endfor%}
+        </ul>
+        <div>
+            <input type="text" name="titre" id="titre" container="choisir le titre" required>
+        </div>
+        <div ><input type="text" id="checkedquestions" name="checkedquestions"></div>
+    <button type="submit" value="choisir une question" >choisir ces questions</button>
+    </div>
+    
+{%endif%}
+    </div>
+    {%endif%} 
+    
+    <script>
+        let divi=document.getElementById("ques");
+        let check=divi.querySelectorAll("input");
+        let resultat=document.querySelector("#resultat");
+        for (const i of check){
+            i.addEventListener("click",function(){
+                console.log(check);
+                if (i.checked==true){
+                resultat.innerHTML+=i.value;}
+            });
+        }
+    </script>
+</form>
+
+{%else%}
+<h3>vous n'avez pas acces a cette page</h3>
+{%endif%}
+{%endblock%}

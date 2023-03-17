@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<h1 class="d-flex justify-content-center title" >Ajouter une question</h1>
+<div class="d-flex justify-content-center">
+<div class="row col-md-11">
+    <div class="col-md-5">
+        <form method="post">
+            <div class="form-group mb-3">
+                <select class="form-select" name="typeQ" id="typeQ" onchange="TypeQ()" required>
+                    <option value="">Type de Question</option>
+                    <option value="qcm">Qcm</option>
+                    <option value="Num">Numérique</option>
+                </select>
+                <div id="typeQuest"></div>
+            </div>
+            
+            <div class="form-group mb-3">
+                <!-- Champ de saisie de la question-->
+                <textarea type="text" class="form-control" id="question" name="question" placeholder="Entrer votre question" oninput="Preview();" required></textarea>
+            </div>
+
+
+            <div class="form-group mb-3" id="typeR">
+                <!-- Champ de saisie des réponses -->
+                <ul id="listeReponse">
+                </ul>
+                <textarea type="text" class="form-control" id="reponse" name="reponse" placeholder="Entrer une reponse" oninput="Preview();" ></textarea>
+                <!-- Bouton qui ajoute une reponse à la liste des reponses et qui autoincrement les reponses et valeurs afin de les recuperer avec la bdd -->
+                <button class="ajout" type="button" id="BtnAjtR" onClick="choix();incrRep()" ></button>
+            </div>
+
+
+            <div class="form-group mb-3">
+                            <!--Champ de saisie des etiquettes qui est lié à la datalist-->
+            <div class="EtiquetteSelectionner">
+                <ul id="EtiquetteSelectionner">
+            </ul></div>
+            <input list="listeEtiquette" class="form-control" id="SaisieEtiquette" name="etiquette" placeholder="Entrer une étiquette" />
+            <br>
+            <!-- Bouton qui permet d'ajouter une etiquette a la datalist mais ne synchronise pas encore avec la bdd -->
+            <button class="ajout" type="button" onClick="incrEtiquettes();choixE();incrEtiquettes();etiqselect();incrEtiquettesSelect()" value="Ajouter une Étiquette"></button>
+
+            <!--datalist qui se remplit automatiquement à partir des etiquettes recuperer sur la bdd-->
+            <datalist id="listeEtiquette">
+                {% if etiquettes :%}
+                {% for etiquette in etiquettes %}
+                    <option>{{etiquette[0]}}</option>
+                {% endfor %}
+                {% endif %}
+            </datalist>
+            </div>
+            <input type="submit" name="questionConfirme" value="Enregister la Question"></input>
+        </form>
+    </div>
+
+    <div class="col-md-6" id="preview" style="background-color: #ffffff; border-color: black; border-style: solid;">
+        <h3>Question : </h3>
+        <div id="previewQ" ></div>
+        <h3>Saisie reponse : </h3>
+        <div id="previewR" ></div>
+    </div>
+</div>
+</div>
+{% endblock %}
+

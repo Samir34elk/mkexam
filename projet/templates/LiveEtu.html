@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+    {% block navbar %}{% if session['connecter'] %} <div><strong class="me-3">{{session['prenom']}} {{session['nom']}}</strong><a href="{{url_for('logout')}}">Se Déconnecter</a></div> {%endif%} {% endblock%}
+
+{% block content %}
+    {% if not(session['salon']) or session['salon'] == "" %}
+    <div id="connexion">
+        <input id="idSequence" type="select" placeholder="Rejoindre une séquence">
+        <button onclick="RejoindreSalon()">valider</button>
+    </div>
+    {%else%}
+    <input id="idSequence"  value="{{idS}}" hidden>
+    <script>RejoindreSalon()</script>
+    {%endif%}
+    <div id="connecter" {% if not(session['salon']) or session['salon'] == "" %} hidden {%endif%}>
+        <div class="card mt-5 mx-5">
+            <div class="card-header d-flex flex-row justify-content-between">
+                <h3 class="card-title">Question</h3>
+                <input type="checkbox" id="afficheQ" onchange="affichage()" >
+            </div>
+            <div class="mx-2 mt-2" id="Qafficher">
+            
+            </div>
+        </div>
+    
+        <div class="card mt-5 mx-5">
+            <div class="card-header d-flex flex-row justify-content-between">
+                <h3 class="card-title">Réponses</h3>
+                <input type="checkbox" id="afficheR" onchange="affichage()">
+            </div>
+            <div class="list-group list-group-flush" id="Rafficher">
+                <ul id="listeR">
+
+                </ul>
+            </div>
+        </div>
+        <div class="text-center">
+        <button id="envoieRep" class="btn btn-danger m-5 justify-content-center" onclick="envoieRep(this)">Soumettre ma réponse</button>
+        </div>
+    </div>
+
+{% endblock %}

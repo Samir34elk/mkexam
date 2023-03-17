@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <form method="POST">
+        <select name="choicSequence" id="choixSequence" required>
+        <option value="">Sélectionner une séquence</option>
+        {% for sequence in sequences %}
+        <option value="{{sequence[0]}}">{{sequence[1]}}</option>
+        {%endfor%}
+    </select>
+    <input type="submit" value="Lancer">
+    <a href="{{url_for('questions')}}">Créé une nouvelle séquence</a>
+    </form>
+{% endblock %}
+
+class="list"

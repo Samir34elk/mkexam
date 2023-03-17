@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+<div >
+    {% block navbar %}{% if session['connecter'] %} <div><strong class="me-3">{{session['prenom']}} {{session['nom']}}</strong><a href="{{url_for('logout')}}">Se Déconnecter</a></div> {%endif%} {% endblock%}
+</div>
+
+{% block content %}
+    {% if not(session['connecter']) %}
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <div class="card bg2 border-light card-body ">
+            <form method="POST" action="{{url_for('login')}}">
+                <h1 class="card-title text-center mb-3">Connexion</h1>
+                {% if login and not(mdp) %}
+                <h5>Compte existant, Connectez-vous ! </h5>
+                {%endif%}
+                <div class="form-floating mb-4">
+                    <input type="text" class="form-control" id="email" name="email" placeholder=" " value='{{login}}' required/>
+                    <label for="email" class="form-label">Identifiant</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Entrer votre mot de passe" required/>
+                    <label for="password">Mot de passe</label>
+                    <p>
+                    {% if mdp == 'incorrect' %}
+                    Mot de passe incorrect ! <a href="https://infoservices.umontpellier.fr/CUMAideEnt/aideENT.html">Vous l'avez oublié ?</a>
+                    {% else %}
+                    <a href="https://infoservices.umontpellier.fr/CUMAideEnt/aideENT.html">Mot de passe oublié ?</a>
+                    {% endif %}
+                    </p>
+                    
+                </div>
+                <div >
+                    vous n'avez pas de compte? <a href="{{ url_for('signup') }}">Inscrivez-vous !</a>
+                </div>
+                <br />
+                <div class="text-center">
+                    <button type="submit" class="btn btn-lg btn-outline-dark">Se Connecter</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    {% else %}
+        {% if session['role'] == 'professeur' %}
+        <div class="d-flex justify-content-start text-center col-md-9 mx-auto mt-5 row">
+            
+            <div class="col-sm-auto m-3">
+                <div class="card acceuil">
+                    <img class="card-img-top" src="/static/img/prof-edit-exam.png" alt="" height="200px" >
+                    <div class="card-body">
+                        <h4 class="card-title">Création</h4>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item acceuil"><a href="{{url_for('ajout_question')}}">Question</a></li>
+                        <li class="list-group-item acceuil"><a href="{{url_for('questions')}}">Examen</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-auto m-3">
+                <div class="card acceuil">
+                    <img class="card-img-top" src="/static/img/img-liveExam.png" alt="" height="200px">
+                    <div class="card-body">
+                        <h4 class="card-title">LiveExam</h4>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item acceuil"><a href="{{ url_for('LiveExam') }}">Lancer une séquence</a></li>
+                        <li class="list-group-item acceuil"><a href="{{url_for('questions')}}">Analyse résultats</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-auto m-3">
+                <div class="card acceuil">
+                    <img class="card-img-top" src="/static/img/parametres.png" alt="" height="200px">
+                    <div class="card-body">
+                        <h4 class="card-title">Paramètres</h4>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item acceuil"><a href="{{ url_for('ajouterLesEtudiants') }}">Ajouter des étudiants</a></li>
+                        <li class="list-group-item acceuil"><a href="{{url_for('questions')}}">Mon Compte</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {%else%}
+        <div class="d-flex justify-content-start text-center col-md-9 mx-auto mt-5 row">
+            <div class="col-sm-auto m-3">
+                <div class="card acceuil">
+                    <img class="card-img-top" src="/static/img/img-liveExam.png" alt="" height="200px">
+                    <div class="card-body">
+                        <h4 class="card-title">LiveExam</h4>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item acceuil"><a href="{{ url_for('LiveExam') }}">Lancer une séquence</a></li>
+                    </ul>
+                </div>
+            </div>        
+            <div class="col-sm-auto m-3">
+                <div class="card acceuil">
+                    <img class="card-img-top" src="/static/img/parametres.png" alt="" height="200px">
+                    <div class="card-body">
+                        <h4 class="card-title">Paramètres</h4>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item acceuil"><a href="{{ url_for('acceuil') }}">Mon compte</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {%endif%}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    </form class="signup" method="POST" action="/signup">
+    <div class="position-absolute top-50 start-50 translate-middle w-50 h h-50">
+        <div class="card bg1 border-light card-body ">
+            <form method="POST">
+                <h1 class="card-title text-center mb-3">Inscription</h1>
+                {% if mailInconnu %}
+                <h5>Le mail saisit ne correspond à aucun compte, Inscrivez-vous !</h5>
+                {%endif%}
+                <div class="form-floating mb-4">
+                    <input type="text" class="form-control" id="email" name="email" placeholder=" " value='{{mail}}' required>
+                    <label for="email" class="form-label">Adresse mail</label>
+                </div> 
+                <div class="form-floating mb-4">
+                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder=" " value='{{nom}}' required>
+                    <label for="lastName" class="form-label">Nom</label>
+                </div> 
+                <div class="form-floating mb-4">
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder=" " value='{{prenom}}' required>
+                    <label for="firstName" class="form-label">Prenom</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input type="password" class="form-control" id="password1" name="password1" placeholder=" " required>
+                    <label for="password">Mot de passe</label>
+                </div>
+                <div class="form-floating mb-4">
+                    <input type="password" class="form-control" id="password2" name="password2" placeholder=" " required>
+                    <label for="password">Confirmez le mot de passe</label>
+                </div>
+                {% if nom %}
+                <h5> Les mots de passes saisies ne correspondent pas ! </h5>
+                {% endif %}
+                <br />
+                <div class="text-center">
+                    <button type="submit" class="btn btn-lg btn-outline-dark">S'inscrire</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+{%endblock%}

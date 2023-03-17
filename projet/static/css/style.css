@@ -1,0 +1,929 @@
+
+a.nav-link{
+    color: whitesmoke;
+}
+
+body{
+    background: url("/static/img/bg.png") no-repeat center center fixed;
+    background-size: cover;
+    position:absolute;
+    width:100%;
+    height: 100%;
+}
+.title{
+    font-size: 3vw ;
+    margin: 3vw;
+}
+
+
+.homeMenu{
+    margin-top: 12vw;
+}
+a:link{
+    text-decoration: none;
+}
+.list-group-item.acceuil a:hover{
+        color: rgb(163, 137, 89);
+        text-shadow: 5px 0px 5px rgba(0, 0, 0, 0.3) !important;
+}
+.card.acceuil:hover{
+    transform: scale(1.1);
+    box-shadow: 2px 0px 5px rgba(225, 202, 54, 0.5);
+}
+
+.list-group-item.acceuil a{
+    color: black;
+}
+
+.list-group-item.acceuil:hover{
+    border: solid;
+    border-width: 1px;
+    border-color: rgb(209, 209, 209);
+    z-index: 1010;
+}
+.card.bg1{
+    background:rgb(255, 255, 249);
+    border-radius: 5%;
+    box-shadow:  0px 0px 6px rgba(98, 98, 98, 0.5);
+    transition: transform 0.5s;
+}
+.card.bg1:hover{
+    transform: scale(1.03);
+    box-shadow:  0px 0px 6px rgba(98, 98, 98, 0.5);
+}
+.card.bg1 button{
+    transition: transform 0.5s;
+}
+.card.bg1 button:hover{
+    transform: scale(1.1);
+}
+
+.card.bg2{
+    background:rgb(255, 255, 249);
+    border-radius: 15%;
+    box-shadow:  0px 0px 6px rgba(98, 98, 98, 0.5);
+    transition: transform 0.5s;
+}
+
+.card.bg2:hover{
+    transform: scale(1.03);
+    box-shadow:  0px 0px 6px rgba(98, 98, 98, 0.5);
+}
+.card.bg2 button{
+    transition: transform 0.5s;
+}
+.card.bg2 button:hover{
+    transform: scale(1.1);
+}
+
+header{
+    background-color: wheat;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1010;
+}
+section{
+    padding: 59px 0;
+    height: 100%;
+}
+footer{
+    background-color: wheat;
+    position: fixed;
+    height: 25px;
+    bottom: 0;
+    width: 100%;
+    line-height: 25px;
+    font-size: 75%;
+}
+.Pconnexion{
+    height: 100% ;
+    background-color: wheat;
+}
+
+/*******************************************************
+*********************** NAVBAR *************************
+********************************************************/
+div.card-body{
+    font-size: 2vw;
+    --bs-card-spacer-y: 3vh;
+    --bs-card-spacer-x: 3vw;
+
+}
+
+.card-title{
+color: #000000 !important;
+}
+
+.list-group-item:hover{
+    width: calc(width+50%) !important;
+}
+
+/* permet de superposer les images pour modifier et supprimer par dessus les boutons ayant cette fonction */
+.supprimer{
+    background-color: black;
+    text-indent: -2000000cm;
+    position: absolute;
+    width: 8mm;
+    height: 8mm;
+    
+    opacity: 0.1;
+}
+.supprimer:hover{
+    text-indent: -2000000cm;
+    position: absolute;
+    width: 8mm;
+    height: 8mm;
+    
+    opacity: 0;
+}
+.modifier{
+    background-color: black;
+    text-indent: -2000000cm;
+    position: absolute;
+    width: 8mm;
+    height: 8mm;
+    
+    opacity: 0.1;
+}
+.modifier:hover{
+    text-indent: -2000000cm;
+    position: absolute;
+    width: 8mm;
+    height: 8mm;
+    
+    opacity: 0;
+}
+
+
+@media print{
+    ul{
+        list-style: none;
+    }
+    /* Masquer l'en-tête */
+    @page {
+    margin-top: 0;
+    text-align: left;
+    }
+    /* Masquer le pied de page */
+    @page {
+    margin-bottom: 0;
+    }
+}
+
+
+/*
+
+
+#navbar-items {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 100%;
+}
+
+.navbar-item {
+    margin: 0 10px;
+}
+
+
+.navbar-item.login-logout {
+    margin-left: auto;
+}
+
+
+.navbar-item a {
+    text-decoration: none;
+    display: block;
+    color: #fcfcfc;
+    font-weight: bold;
+}
+
+.navbar-item a:hover {
+    color: #000000;
+}
+
+/*******************************************************
+************************* BODY *************************
+*******************************************************
+
+
+body{
+    background: url('../img/hand-holding-pen-on-paper.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin : 0;
+    top: auto;
+}
+
+.container {
+    margin: 20px 50px;
+}
+
+
+/*******************************************************
+********************** Acceuil *************************
+*******************************************************
+
+ul.index {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: wheat;
+}
+
+h1.index {
+    font-family: fantasy;
+}
+
+
+
+/*******************************************************
+*********************** signup *************************
+*******************************************************
+form.signup{
+    position: absolute;
+    top: 10%;
+    left: 35%;
+    transition: translate(-50%,-50%);
+    width: 400px;
+    border-radius: 10px;
+    font-size: 16px;
+    background:white;
+    opacity: 70%;
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+h1.signup{
+    text-align: center;
+    border-bottom: 1px solid wheat;
+}
+
+input.signup{
+    margin-bottom: 5px;
+}
+
+
+::placeholder {
+    color : black;
+}
+
+/*******************************************************
+************************ login *************************
+*******************************************************
+
+
+
+
+form.login{
+    position: absolute;
+    top: 20%;
+    left: 35%;
+    transition: translate(-50%,-50%);
+    width: 400px;
+    border-radius: 10px;
+    font-size: 16px;
+    background:white;
+    opacity: 70%;
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+h1.login{
+    text-align: center;
+    border-bottom: 1px solid wheat;
+}
+
+label.login{
+    opacity: 0;
+}
+
+
+
+/*******************************************************
+******************* Ajout Question *********************
+*******************************************************
+
+button.ajout{
+    background: transparent;
+    border: none;
+    position: relative ;
+    left: 50px;
+}
+
+img.ajout{
+    width: 10mm;
+}
+
+img.ajout:hover{
+    width: 10mm;
+    filter: invert(78%) sepia(61%) saturate(6264%) hue-rotate(80deg) brightness(118%) contrast(130%);
+}
+
+ul.ajout li.ajout {
+    display: inline-block;
+    top: 20%;
+    
+    left: 35%;
+    transition: translate(-50%,-50%);
+    width: auto;
+    border-radius: 10px;
+    font-size: 16px;
+    background:white;
+    opacity: 70%;
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+
+/*******************************************************
+********************** Question ************************
+*******************************************************
+
+
+/*******************************************************
+********************* cree-fiche ***********************
+*******************************************************
+
+
+/*******************************************************
+************************ exam **************************
+*******************************************************
+
+
+
+
+
+
+li{
+    position: relative;
+    width: auto;
+    height: auto;
+    margin: 10px;
+}
+
+
+
+
+
+
+
+
+
+/*********************************************************************************
+form.cree_fiche_eti{
+    text-align: center ;
+}
+form.cree_fiche_quest{
+    text-align: center ;
+}
+
+
+
+input{
+    position: relative;
+    border-bottom: 2px solid #9e9394;
+    margin: 30px 0;
+}
+input{
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: black;
+}
+label{
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    transform: translateY(-50%);
+    transition: .5s;
+}
+span::before{
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    transition: .5s;
+}
+
+input:focus ~ label,
+.form-group input:valid ~ label{
+    top: -15px;
+}
+
+input:focus ~ span::before,
+.form-group input:valid ~ span::before{
+    width: 100%;
+}
+
+
+button{
+    width: 100%;
+    height: 50px;
+    border: 1px solid wheat;
+    background: white;
+    color: black;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .80s;   
+    margin: 9px 0;
+}
+button:hover{
+    color:white;
+    background:rgb(100, 24, 24);
+}
+.signup-link{
+    margin: 30px 0;
+    text-align: center;
+    font-size: 16px;
+  
+}
+
+
+
+
+div.index{
+    position: absolute;
+    top: 15%;
+    left: 28%;
+}
+div.index{
+    
+    position: absolute;
+    font-size: 12px;
+    top: 20%;
+    left: 18%;
+    height: 80px;
+}
+
+
+li.inex+a{
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: wheat;
+    padding: 1em 2em;
+    color: white;
+    border-radius: 20px;
+    border: 1px solid wheat;
+    margin: 40px;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 16px;
+    transition: .5s;
+    position: relative;
+    top: 35%;
+    
+}
+li.index+a:hover{
+    cursor: pointer;
+    color:wheat;
+    background-color: whitesmoke;
+}
+
+
+
+.form-ajout-quest{
+    background-color: wheat;
+    position: absolute;
+    top: 15%;
+    left: 30%;
+    transition: translate(-50%,-50%);
+    width: 600px;
+    border-radius: 10px;
+    font-size: 16px;
+
+}
+
+.form-creer-fiche{
+    background-color: wheat;
+    position: absolute;
+    top: 15%;
+    left: 30%;
+    transition: translate(-50%,-50%);
+    width: 600px;
+    border-radius: 10px;
+    font-size: 16px;
+}
+.form-creer-fiche h1{
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: wheat;
+    padding: 1em 2em;
+    color: white;
+    border-radius: 8px;
+    border: 1px solid wheat;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 16px;
+    transition: .5s;
+    position: relative;
+    top: 35%;
+    border-bottom: 1px solid #9e9394;
+    margin: 40px;
+}
+.select-etiquette h3{
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: wheat;
+    padding: 1em 2em;
+    color: white;
+    border-radius: 8px;
+    border: 1px solid wheat;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 16px;
+    transition: .5s;
+    position: relative;
+    top: 35%;
+    border-bottom: 1px solid #9e9394;
+}
+.btn-titre{
+    width: 40%;
+    height: 40px;
+    border: 1px solid wheat;
+    background: white;
+    color: black;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .40s;   
+    margin: 10px 0;
+    
+}
+.btn-titre:hover{
+    color:white;
+    background:wheat;
+}
+.notre-titre{
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: wheat;
+    padding: .61em .31em;
+    color: white;
+    border-radius: 8px;
+    border: 1px solid wheat;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 16px;
+    transition: .5s;
+    position: relative;
+    top: 35%;
+    border-bottom: 1px solid #9e9394;
+}
+
+.btn-eti{
+    width: 40%;
+    height: 40px;
+    border: 1px solid wheat;
+    background: white;
+    color: black;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .40s;   
+    margin: 10px 0;
+    
+}
+.btn-eti:hover{
+    color:white;
+    background:wheat;
+}
+
+
+
+
+
+.btn-examen{
+    width: 50%;
+    height: 50px;
+    border: 1px solid wheat;
+    background: white;
+    color: black;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .80s;   
+    margin: 9px 0;
+}
+.btn-examen:hover{
+    color:white;
+    background:wheat;
+}
+.titre{
+    width: 100%;
+    position: relative;
+    border-bottom: 2px solid #9e9394;
+    margin: 30px 0;
+}
+.titre input{
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: black;
+}
+.titre label{
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    transform: translateY(-50%);
+    transition: .5s;
+}
+
+.titre span::before{
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    transition: .5s;
+}
+.titre input:focus ~ label,
+.titre input:valid ~ label{
+    top: -15px;
+}
+.titre input:focus ~ span::before,
+.titre input:valid ~ span::before{
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+select {
+    width: 100%;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+  }
+
+
+
+
+
+.btn-primary-question{
+    width: 50%;
+    height: 50px;
+    border: 1px solid wheat;
+    background: white;
+    color: black;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .80s;   
+    margin: 9px 0;
+}
+.btn-primary-question:hover{
+    color:white;
+    background:wheat;
+}
+
+
+
+
+form .form-group-question{
+    width: 100%;
+    position: relative;
+    border-bottom: 2px solid #9e9394;
+    margin: 30px 0;
+    
+
+}
+.form-group-question input{
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: black;
+}
+.form-group-question label{
+    
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    transform: translateY(-50%);
+    transition: .5s;
+}
+
+.form-group-question span::before{
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    transition: .5s;
+}
+.form-group-question input:focus ~ label,
+.form-group-question input:valid ~ label{
+    top: -15px;
+}
+.form-group-question input:focus ~ span::before,
+.form-group-question input:valid ~ span::before{
+    width: 100%;
+}
+
+#valeur{
+    width: 30%;
+    border: 1px solid wheat;
+    background: white;
+    color: black;
+    border-radius: 60px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .40s;   
+    margin: 60px 0;
+}
+#valeur:hover {
+    border: 2px;
+    border-color: black;
+   
+}
+#listeReponse input{
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: black;
+    position: absolute;
+    left: 0%;
+}
+#EtiquetteSelectionner{
+    color:black;
+    display: block;
+    position: relative;
+    padding-left: 10px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    background-color:white;
+    font-family: sans-serif;
+    font-weight: 600;
+    border: 1px solid wheat;
+    padding: .60em .30em;
+    margin-top: 40px;
+
+}
+.EtiquetteSelectionner{
+    
+    color: black;
+    font-weight: 600;
+    padding: .5em .2em;
+    margin: 40px;
+    margin-bottom: 0px;
+}
+.title{
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: wheat;
+    padding: 1em 2em;
+    color: white;
+    border-radius: 8px;
+    border: 1px solid wheat;
+    margin: 40px;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 16px;
+    transition: .5s;
+    position: relative;
+    top: 35%;
+    
+
+}
+.form-group-reponse{
+    box-sizing: border-box;
+    border-bottom: 2px solid #9e9394;
+}
+.form-group-etiquette{
+    box-sizing: border-box;
+}
+
+#buteti{
+    width: 10%;
+    height: 20px;
+    border: 1px solid wheat;
+    background: white;
+    color: black;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .40s;   
+    margin: 9px 0;
+    
+}
+#buteti:hover{
+    color:white;
+    background:wheat;
+}
+#butque{
+    width: 10%;
+    height: 20px;
+    border: 1px solid wheat;
+    background: white;
+    color: black;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .40s;   
+    margin: 9px 0;
+    
+}
+#butque:hover{
+    color:white;
+    background:wheat;
+}
+
+.form-group-etiquette label{
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: wheat;
+    padding: .30em .60em;
+    color: white;
+    border-radius: 8px;
+    border: 1px solid wheat;
+    margin: 5px;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 14px;
+    position: relative;
+    top: 35%;
+}
+.form-group-reponse label{
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: wheat;
+    padding: .30em .60em;
+    color: white;
+    border-radius: 8px;
+    border: 1px solid wheat;
+    margin: 5px;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 14px;
+    position: relative;
+    top: 35%;
+}
+
+
+
+
+
+
+
+
+
+
+.une-question {
+    color: black;
+    display: block;
+    position: relative;
+    padding-left: 10px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color:white;
+    font-family: sans-serif;
+    font-weight: 600;
+    border: 1px solid wheat;
+    padding: 1em 2em;
+    margin: 40px;
+    transition: .2s;
+  }
+  .une-question:hover{
+    background-color:wheat;
+    color: white;
+  }
+  
+*/

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+<div >
+    {% block navbar %}{% if session['connecter'] %} {{session['prenom']}} {{session['nom']}} {%endif%} {% endblock%}
+</div>
+
+{% block content %}
+
+<div class="A4àImprimer" hidden>
+    <h1 class="w-100 text-center">{{titre}}</h1>
+
+    <ul class="list-group  ms-4 mt-4" >
+        {% for q in data%}
+        <li class="list-group-item"> <span>{{q[0]}}</span>
+            <ul>
+            {%for r in q[1] %}
+            <li class="list-group-item" ><span>{{r[0]}}</span></li>
+            {%endfor%}
+            </ul>
+        </li>
+        {%endfor%}
+    </ul>
+    
+</div>
+<button onclick="window.print()">imprimer</button>
+<style>
+    @page { margin: 0; }
+    @media print {
+  @page { margin: 0; }
+}
+
+
+</style>
+
+<script>
+    // Sélectionnez tous les éléments <li>
+    const lis = document.querySelectorAll('span');
+    for(i=0;i<lis.length;i++){
+        console.log(lis[i].textContent)
+        transforme(lis[i])
+    }
+  </script>
+
+{% endblock %}

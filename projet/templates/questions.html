@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="aCacher">
+    <h1>Mes Questions</h1>
+
+    {% if questions|length == 0 and idU %}
+
+        <p> Vous n'avez aucune question enregistrée  </p>
+        <a href="{{url_for('ajout_question')}}">Ajouter une nouvelle question</a>
+
+    {% elif idU %}
+        <!--Champ de saisie des etiquettes qui est lié à la datalist-->
+        <div class="EtiquetteSelectionner"><ul id="EtiquetteSelectionner">
+
+        </ul></div>
+
+        <form method="POST" action="">
+
+            <!--datalist qui se remplit automatiquement à partir des etiquettes recuperer sur la bdd-->
+            <select id="listeEtiquette" onchange="etiquetteselect();incrEtiquettesSelect1()" >
+                {% for etiquette in etiquettes %}
+                <option value="{{etiquette}}">{{etiquette}}</option>
+                {% endfor %}
+            </select>
+    
+    
+    <div id="">
+        filtres sélectionnés :
+        <ul id="etiquetteSelectionner" class="list-inline m-3">
+            {% for etiquetteSelect in etiquettesSelect %}
+            <li><input type="hidden"  value="{{etiquetteSelect[1]}}">{{etiquetteSelect[1]}}<button type="button" onClick="incrEtiquettesSelect1();supprimeEti1(this)"></li>
+            {%endfor%}
+        </ul>
+
+    </div>
+    <div class="d-flex justify-content-center mb-5">
+        <table class="table w-75 bg-light bg-opacity-75" id="tableQ">
+            <thead>
+                <tr>
+                    <th scope="col">Sélection</th>
+                    <th scope="col">Questions</th>
+                    <th scope="col">Reponses</th>
+                    <th scope="col">Étiquettes</th>
+                    <th scope="col">Modifier/Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions : %}
+                <tr>
+                    <th> <input type="checkbox" value="{{question[1]}}" onchange="SelectionQ(this);"> </th>
+                    <th class=" text-center question{{question[1]}}" scope="row">{{ question[0] }}</th>
+                    <script>transformeQ('question{{question[1]}}');</script> 
+                    <td class="text-start">
+                        
+                            {% for reponses in liste_reponses : %}
+                                {% if reponses[1] == question[1] :%}
+                                    
+                                        {% for i in range(reponses[0]|length) : %}
+                                            {% if reponses[0][i][1] == 0 : %}
+                                            <li class="bg-danger-subtle margin-1 reponse{{question[1]}}_{{i}}">{{reponses[0][i][0]}}</li>
+                                            {% else %}
+                                            <li class="bg-success-subtle margin-1 reponse{{question[1]}}_{{i}}">{{reponses[0][i][0]}}</li>
+                                            {%endif%}
+                                            <script> transformeQ('reponse{{question[1]}}_{{i}}');</script>
+                                        {%endfor%}
+                                    
+                                {% endif %}
+                            {%endfor%}
+                            
+                        
+                    </td>
+                    <td>
+                        {% for etiquette in liste_assocQE : %}
+                        {% if etiquette[1] == question[1] :%}
+                                {% for i in range(etiquette[0]|length) : %}
+                                    <li>{{etiquette[0][i]}}</li>
+                                {%endfor%}
+                        {% endif %}
+                    {%endfor%}
+                    
+                
+                    </td>
+                    <td class="text-center"> <input type="submit" name="modifier" class="modifier" value="{{question[1]}}" > 
+                    <img src="/static/img/logo-modifier.ico" class="imgsupp">  </input> <input type="submit" name="supprimer" class="supprimer" value="{{question[1]}}" ><img src="/static/img/logo-poubelle.ico" class="imgsupp"></input> </td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+    <h2>Questions sélectionnées :</h2>
+
+    <input type="text" id="listeQchoisi" name="listeQchoisi" value="" hidden>
+    
+    <div class="d-flex justify-content-center mb-5">
+        <table class="table w-75 bg-light bg-opacity-75" id="tableQselect">
+            <thead>
+                <tr>
+                    <th scope="col">Enlever de la sélection</th>
+                    <th scope="col">Questions</th>
+                    <th scope="col">Reponses</th>
+                    <th scope="col">Étiquettes</th>
+                </tr>
+            </thead>
+            <tbody>
+    {% if questionSelect %}{% for idQ in questionSelect %}
+    
+    {%endfor%}{%endif%}
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-center mb-5">
+        <label for="titre"> Intitulé Examen : </label>
+        <input type="text" name="titre" oninput="document.getElementById('divAimprimer').children[0].textContent = this.value;" placeholder="Titre" >
+    </div>
+
+
+    <div class="d-flex justify-content-around mb-5">
+        <button class="btn btn-outline-secondary" type="button" onclick="imprimer()">Imprimer</button>
+        
+        <input type="submit" name="ExamLive" class="btn btn-outline-info" value='Enregistrer une Séquence pour LiveExam'> </input>
+    </div>    
+    </form>
+    
+
+    {% else %}
+
+    <p>Veuillez vous <a href="{{url_for('login')}}">connecter</a>  pour accéder à vos questions.</p>
+
+    {% endif %}
+    </div>
+    <div class="list-group" id="divAimprimer" hidden>
+        <h1 class="w-100 text-center"></h1>
+        <ul class="list-group  ms-4 mt-4" >
+        </ul>
+    </div>
+
+{% endblock %}

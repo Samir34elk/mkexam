@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<ul>
+    <li>
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" readonly value="{{nom}}">
+    </li>
+    <li>
+        <label for="prenom">Prenom</label>
+        <input type="text" id="prenom" readonly value="{{prenom}}">
+    </li>
+    <li>
+        <label for="mail">Mail</label>
+        <input type="text" id="mail" readonly value="{{mail}}">
+    </li>
+    <li>
+        <label for="mdp">Mot de Passe</label>
+        <input type="text" id="mdp" readonly value="******">
+        <button>Modifier le mot de passe</button>
+    </li>
+    <li>
+        <label for="Nom">Ajouter des Étudiants</label>
+        <input type="file"  value="">
+    </li>
+</ul>
+
+{%endblock%}
