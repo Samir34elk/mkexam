@@ -4,7 +4,7 @@
 
 function etiquetteselect(){
     valeur = document.getElementById("listeEtiquette").value;
-    html = '<li><input type="hidden"  value="'+valeur+'">'+valeur+'<button type="button" onClick="supprimeEti1(this)"></li>'
+    html = '<li  class="list-inline-item"><input type="hidden"  value="'+valeur+'">'+valeur+'<button type="button" onClick="supprimeEti1(this)"></li>'
     document.getElementById("etiquetteSelectionner").innerHTML += html;
 }
 
@@ -129,9 +129,23 @@ function TypeQ(){
         document.getElementById("listeReponse").hidden = true;
         document.getElementById("BtnAjtR").hidden = true;
         document.getElementById("listeReponse").innerHTML = "";
+        textarea = document.getElementById('reponse')
+        input = document.createElement('input')
+        input.setAttribute('type','number')
+        input.step = 0.01
+        input.id = textarea.id;
+        input.name = textarea.name;
+        textarea.replaceWith(input)
     } else if (valeur=="qcm"){
         document.getElementById("listeReponse").hidden = false;
         document.getElementById("BtnAjtR").hidden = false;
+        input = document.getElementById('reponse')
+        textarea = document.createElement('textarea')
+        textarea.id = input.id;
+        textarea.name = input.name;
+        textarea.className = "form-control"
+        textarea.setAttribute('oninput',"Preview();")
+        input.replaceWith(textarea)
     }
 }
 
@@ -260,6 +274,7 @@ Nbconnecter = 0;
 NbRepRecu = 0;
 RepRecu = [];
 EtuConnecter = []
+typeQ = ""
 
 function creeSalon(){
     socket = io.connect();
@@ -276,11 +291,28 @@ function creeSalon(){
     socket.on("RecuRep", (reponses) => {
         NbRepRecu++;
         document.getElementById("NbReponses").textContent = NbRepRecu;
-        console.log(reponses,RepRecu)
+        DivRep = document.getElementById('Rafficher')
+        listeRep = DivRep.children
+        if(listeRep.length == 0 ){
+            typeQ = "Num"
+        }
+        if(typeQ === "Num" && !(RepRecu.some(sousliste => sousliste.includes(reponses[0][1])))){
+            RepRecu.push([reponses[0][1],0]);
+            nouveauli = document.createElement('div')
+            nouveauli.innerHTML = `<li id="`+reponses[0][1]+`
+            " name="`+reponses[0][0] +`" class="list-group-item" >` 
+            + reponses[0][1] +
+            `<div id="NbVote" hidden>
+            <div class="progress progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>0%</div>
+            </li>`;
+            DivRep.appendChild(nouveauli);
+        }
         for(i=0;i<reponses.length;i++){
             console.log[reponses[i]]
             for(j=0;j<RepRecu.length;j++){
-                if(reponses[i][0]===RepRecu[j][0] && parseInt(reponses[i][1])===1  ){
+                if(reponses[i][0]===RepRecu[j][0] && parseInt(reponses[i][1])===1 && typeQ === "" ){
+                    RepRecu[j][1]++;
+                } else if(reponses[i][1]===RepRecu[j][0] && typeQ === "Num"){
                     RepRecu[j][1]++;
                 }
             }
@@ -289,9 +321,9 @@ function creeSalon(){
         for(i=0;i<reponses.length;i++){
                 pourcentage = (RepRecu[i][1]/NbRepRecu)*100
                 if(pourcentage>50){
-                    reponses[i].getElementsByTagName('div')[0].innerHTML = '<div class="progress progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: '+pourcentage+'%">'+pourcentage+'%</div></div>'
+                    reponses[i].getElementsByTagName('div')[0].innerHTML = '<div class="progress progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: '+pourcentage+'%">'+pourcentage.toFixed(0)+'%</div></div>'
                 }else{
-                    reponses[i].getElementsByTagName('div')[0].innerHTML = '<div class="progress progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: '+pourcentage+'%"></div>'+pourcentage+'%</div>'
+                    reponses[i].getElementsByTagName('div')[0].innerHTML = '<div class="progress progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: '+pourcentage+'%"></div>'+pourcentage.toFixed(0)+'%</div>'
                 }
         }
     });
@@ -302,10 +334,12 @@ function RejoindreSalon(){
     idSalon = document.getElementById('idSequence').value;
     socket.emit("JoinSalon", idSalon )
     socket.on("JoinSalon", (arg) => {
-        if(document.getElementById('connexion')){
+        console.log(arg !== "La salle n'existe pas")
+        if(arg === "La salle n'existe pas"){
+            document.getElementById('SalleNonexistante').hidden = false;
+        }else {
             document.getElementById('connexion').hidden = true;
         }
-    
     });
     socket.on("QuestionAfficher", (data) => {
         document.getElementById('connecter').hidden = false;
@@ -323,7 +357,7 @@ function RejoindreSalon(){
                 html += '<li class="list-unstyled my-2 mx-3" id="'+reponses[i][0]+'"><input type="checkbox" name="" id="">  '+reponses[i][1]+'</li>'
             }
         } else {
-            html += '<li class="list-unstyled m-2 w-75" id="'+reponses[0][0]+'"><input type="number" class="w-100" name="" id=""></li>'
+            html += '<form><li class="list-unstyled m-2 w-75" id="'+reponses[0]+'"><input type="number" class="w-100" name="" id="" step=0.01 ></li>'
         }
         document.getElementById('listeR').innerHTML = html;
     });
@@ -333,7 +367,33 @@ function RejoindreSalon(){
             liste[i].disabled = true;
         }
         document.getElementById('envoieRep').disabled = true;
+    });
+    socket.on("affichageCorrection", (liste) => {
+        if (typeQ == "qcm" ){
+            listeR= document.getElementById('listeR').children
+            for(i=0;i<listeR.length;i++){
+                for(j=0;j<liste.length;j++){
+                    if(listeR[i].id == liste[j][0]){
+                        if(parseInt(liste[j][1])==1){
+                            listeR[i].className += " bg-success-subtle "
+                        }else{
+                            listeR[i].className += " bg-danger-subtle "
+                        }
+                    }
+                }
+                    
+            };
+            console.log(document.getElementById('listeR'),liste)
+        }else{
+            console.log(document.getElementById('listeR').getElementsByTagName('input')[0].value,liste)
+            //if(document.getElementById('listeR').getElementsByTagName('input')[0].value == liste)
+        }
+    });
+    socket.on("quitter", () => {
+        sid = socket.id
+        window.location.href = "quitterRoom/"+sid
     })
+
 };
 
 function NextQ(btnNext){
@@ -345,13 +405,15 @@ function NextQ(btnNext){
     document.getElementById('IndexOrdre').textContent = Index ;
     html ="";
     RepRecu = []
+    typeQ = ""
     if (Index > QinListe.length ){
         document.getElementById('IndexOrdre').textContent = Index-1 ;
-        btnNext.disabled = true;
+        btnNext.hidden = true;
         document.getElementById('Qafficher').innerHTML = '<h2 class="w-100 text-center my-5"> Séquence Terminée<h2>';
         document.getElementById('Rafficher').innerHTML = '<h2 class="w-100 text-center my-5"> Bravo à tout les participants <h2>';
         
     }else{
+        btnNext.textContent = "Next";
         for (i=0;i<QinListe.length;i++){
             if (QinListe[i].id == Index){
                 transforme(QinListe[i].getElementsByTagName('textarea')[0]);
@@ -411,6 +473,31 @@ function afficheRepDirect(btn){
             reponses[i].getElementsByTagName('div')[0].hidden = false;
         }
     }
+    socket.on("RecuRep", () => {
+        // Sélectionnez tous les éléments parent des barres de progression
+            parents = Array.from(document.querySelectorAll('.progress-bar')).map(bar => bar.parentElement.parentElement);
+
+            // Triez les éléments parents en fonction de la largeur de leur barre de progression
+            parents.sort((a, b) => {
+            const barA = a.querySelector('.progress-bar');
+            const barB = b.querySelector('.progress-bar');
+            const widthA = parseFloat(barA.style.width);
+            const widthB = parseFloat(barB.style.width);
+            return widthB - widthA;
+            });
+    
+            // Ajoutez les éléments parent triés à leur conteneur
+            const container = document.getElementById('Rafficher');
+            parents.forEach(parent => container.appendChild(parent));
+            parents.forEach((parent, index) => {
+                if (index < 4) {
+                    container.appendChild(parent);
+                } else {
+                    parent.style.display = 'none';
+                }
+            }
+            )})
+    
 }
 
 function StopRep(btn){
@@ -421,17 +508,39 @@ function StopRep(btn){
 function afficheCorrection(btn){
     btn.disabled = true;
     reponses = document.getElementById('Rafficher').children
+    liste = []
+    listeQ = document.getElementById('listeQ').getElementsByTagName('textarea')
     for(i=0;i<reponses.length;i++){
-        if ( parseInt(reponses[i].id) === 1 ){
-            reponses[i].className += " list-group-item-success"
-        } else {
-            reponses[i].className += " list-group-item-danger"
+        if (typeQ !== "Num"){
+            liste.push([reponses[i].attributes.name.value,reponses[i].id])
+            if ( parseInt(reponses[i].id) === 1 ){
+                reponses[i].className += " list-group-item-success"
+            } else {
+                reponses[i].className += " list-group-item-danger"
+            }
+        }else{
+            for(j=0;j<listeQ.length;j++){
+                    if(listeQ[j].attributes.length !== 0 && listeQ[j].attributes.name.value === reponses[i].firstElementChild.attributes.name.value){
+                        console.log(parseFloat(reponses[i].id),parseFloat(listeQ[j].textContent))
+                        if ( parseFloat(reponses[i].firstElementChild.id) === parseFloat(listeQ[j].textContent) ){
+                            reponses[i].firstElementChild.className += " list-group-item-success"
+                        } else {
+                            reponses[i].firstElementChild.className += " list-group-item-danger"
+                        }
+                    }
+            }
         }
-    }
+
+    };
+    socket.emit("affichageCorrection",liste)
 }
 
 function quitterRoom(){
-    console.log("a faire mais c'est de l'eau ca")
+    socket.emit("quitter", "quitter")
+    socket.on("quitter", () => {
+        sid = socket.id
+        window.location.href = "quitterRoom/"+sid
+    })
 }
 
 function envoieRep(btn){
@@ -443,7 +552,7 @@ function envoieRep(btn){
     console.log([liste[0].parentNode.id,liste[0].checked])
     if (liste[0].type === "number"){
         liste[0].disabled = true;
-        mesreponses = [[liste[0].parentNode.id,liste[0].value]]
+        mesreponses = [[liste[0].parentNode.id,parseFloat(liste[0].value).toFixed(2)]]
         console.log(mesreponses)
     } else {
         for (i=0;i<liste.length;i++){
@@ -468,15 +577,23 @@ function imprimer(){
         if (table.rows[i].cells[2].children.length <= 2 ){
             liste.innerHTML += '<li class="list-group-item">'+table.rows[i].cells[1].innerHTML+'<li><br><br><br><br>';
         }else{
-            liste.innerHTML += '<li class="list-group-item">'+table.rows[i].cells[1].innerHTML+'<li><ul>'+table.rows[i].cells[2].innerHTML+'</ul>';
+            liste.innerHTML += '<li class="list-group-item"  >'+table.rows[i].cells[1].innerHTML+'<li><ul class="reponseImprimer" >'+table.rows[i].cells[2].innerHTML+'</ul>';
+        }
+    }
+    repimp = document.getElementsByClassName('reponseImprimer')
+    for(i=0;i<repimp.length;i++){
+        for(j=0;j<repimp[i].children.length;j++){
+            repimp[i].children[j].innerHTML = '<input class="position-absolute" type="checkbox"> <div class="ms-4">'+ repimp[i].children[j].innerHTML+'</div>'
         }
     }
     document.getElementById('aCacher').hidden=true;
     document.getElementById('divAimprimer').hidden=false;
-    window.print({
-    noHeader: true,
-    noFooter: true
-    });
+    document.getElementsByClassName('navbar')[0].hidden = true;
+    document.getElementsByTagName('footer')[0].hidden = true;
+    window.print();
+    liste.innerHTML = ""
+    document.getElementsByTagName('footer')[0].hidden = false;
+    document.getElementsByClassName('navbar')[0].hidden = false;
     document.getElementById('aCacher').hidden=false;
     document.getElementById('divAimprimer').hidden=true;
 
