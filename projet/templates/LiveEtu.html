@@ -5,10 +5,17 @@
 
 {% block content %}
     {% if not(session['salon']) or session['salon'] == "" %}
-    <div id="connexion">
-        <input id="idSequence" type="select" placeholder="Rejoindre une séquence">
-        <button onclick="RejoindreSalon()">valider</button>
-    </div>
+    <div class="justify-content-center align-content-center h-100" id="connexion">
+        <div class="form-floating m-5">
+            <input class="form-control " id="idSequence" type="select" placeholder=" ">
+            <label for="idSequence">Rejoindre une séquence</label>
+        </div>
+        <div class="form-group w-100 text-center mb-5" id="SalleNonexistante" hidden>Le code n'est pas valide</div>
+        <div class="form-group text-center">
+            <button class="btn btn-outline-info p-3 px-5" onclick="RejoindreSalon()">valider</button>
+        </div>
+        </div>
+    
     {%else%}
     <input id="idSequence"  value="{{idS}}" hidden>
     <script>RejoindreSalon()</script>
@@ -38,6 +45,7 @@
         <div class="text-center">
         <button id="envoieRep" class="btn btn-danger m-5 justify-content-center" onclick="envoieRep(this)">Soumettre ma réponse</button>
         </div>
+    
     </div>
 
 {% endblock %}

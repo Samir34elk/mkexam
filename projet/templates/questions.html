@@ -2,7 +2,7 @@
 
 {% block content %}
 <div id="aCacher">
-    <h1>Mes Questions</h1>
+    <h1 class="w-50 text-center my-3">Mes Questions</h1>
 
     {% if questions|length == 0 and idU %}
 
@@ -11,28 +11,28 @@
 
     {% elif idU %}
         <!--Champ de saisie des etiquettes qui est lié à la datalist-->
-        <div class="EtiquetteSelectionner"><ul id="EtiquetteSelectionner">
+        <div class="EtiquetteSelectionner"><ul class="list-inline m-3" id="EtiquetteSelectionner">
 
         </ul></div>
 
         <form method="POST" action="">
+        <!--datalist qui se remplit automatiquement à partir des etiquettes recuperer sur la bdd-->
+        <select class="w-auto form-select mx-5" form-select mx-5" id="listeEtiquette" onchange="etiquetteselect();incrEtiquettesSelect1()" >
+            {% for etiquette in etiquettes %}
+            <option value="">sélectionner une étiquette</option>
+            <option value="{{etiquette}}">{{etiquette}}</option>
+            {% endfor %}
+        </select>
+        <div class="d-flex justify-content-center w-50">
+            <div>
+                filtres sélectionnés :
+            </div>
 
-            <!--datalist qui se remplit automatiquement à partir des etiquettes recuperer sur la bdd-->
-            <select id="listeEtiquette" onchange="etiquetteselect();incrEtiquettesSelect1()" >
-                {% for etiquette in etiquettes %}
-                <option value="{{etiquette}}">{{etiquette}}</option>
-                {% endfor %}
-            </select>
-    
-    
-    <div id="">
-        filtres sélectionnés :
-        <ul id="etiquetteSelectionner" class="list-inline m-3">
+            <ul id="etiquetteSelectionner" class="list-inline m-3">
             {% for etiquetteSelect in etiquettesSelect %}
-            <li><input type="hidden"  value="{{etiquetteSelect[1]}}">{{etiquetteSelect[1]}}<button type="button" onClick="incrEtiquettesSelect1();supprimeEti1(this)"></li>
+            <li class="list-inline-item"><input type="hidden"  value="{{etiquetteSelect[1]}}">{{etiquetteSelect[1]}}<button type="button" onClick="incrEtiquettesSelect1();supprimeEti1(this)"></li>
             {%endfor%}
-        </ul>
-
+            </ul>
     </div>
     <div class="d-flex justify-content-center mb-5">
         <table class="table w-75 bg-light bg-opacity-75" id="tableQ">
@@ -88,7 +88,7 @@
             </tbody>
         </table>
     </div>
-    <h2>Questions sélectionnées :</h2>
+    <h2 class="w-50 text-center my-3">Questions sélectionnées :</h2>
 
     <input type="text" id="listeQchoisi" name="listeQchoisi" value="" hidden>
     

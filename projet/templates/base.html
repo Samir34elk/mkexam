@@ -15,7 +15,7 @@
 
     <!-- source pour notre fichier css -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css') }}">
-
+    
     <!-- source pour notre fichier js -->
     <script src="{{url_for('static',filename='js/script.js')}}"></script>
 
@@ -74,11 +74,11 @@
                 {% if session['connecter'] and session['role'] == 'professeur' : %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Mon Espace Édition
+                            Mon Espace création
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ url_for('ajout_question') }}">Nouvelle question</a></li>
-                                <li><a class="dropdown-item" href="{{ url_for('questions') }}">Mes Questions</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('ajout_question') }}">Question</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('questions') }}">Examen</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -87,6 +87,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url_for('LiveExam') }}">Lancer une séquence</a></li>
+                                <li><a class="dropdown-item" href="{{url_for('stats')}}">Analyse des résultats</a></li>
                             </ul>
                         </li>                        
                         <li class="nav-item dropdown">
@@ -101,7 +102,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('logout') }}">se déconnecter</a>
                         </li>
-                {% else : %}
+                {% elif session['connecter'] : %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}">se déconnecter</a>
+                        </li>
+                {%else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('login') }}">se connecter</a>
                         </li>

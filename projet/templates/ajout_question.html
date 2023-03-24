@@ -4,8 +4,8 @@
 {% block content %}
 <h1 class="d-flex justify-content-center title" >Ajouter une question</h1>
 <div class="d-flex justify-content-center">
-<div class="row col-md-11">
-    <div class="col-md-5">
+<div class="row col-sm-11">
+    <div class="col-sm-5">
         <form method="post">
             <div class="form-group mb-3">
                 <select class="form-select" name="typeQ" id="typeQ" onchange="TypeQ()" required>
@@ -55,11 +55,11 @@
         </form>
     </div>
 
-    <div class="col-md-6" id="preview" style="background-color: #ffffff; border-color: black; border-style: solid;">
+    <div class="col-sm-6 h-100" id="preview" style="background-color: #ffffff; border-color: black; border-style: solid; max-height: 100% !important;">
         <h3>Question : </h3>
-        <div id="previewQ" ></div>
+        <div class="overflow-auto h-50" id="previewQ" ></div>
         <h3>Saisie reponse : </h3>
-        <div id="previewR" ></div>
+        <div class="overflow-auto h-50" id="previewR" ></div>
     </div>
 </div>
 </div>

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+<div hidden>
+    {% block  navbar1%}{% endblock%}
+    {% block  navbar2%}{% endblock%}
+</div>
+
+{% block content %}
+
+<div class="d-flex justify-content-center">
+<form method="POST" action="/changerMdpEtu">
+    <div class="form-floating my-2 col-auto">
+        <input type="text" class="form-control" id="anmdp" name="anmdp" value="{{Nom}}" disabled/>
+        <label for="anmdp">Nom</label>
+    </div>
+    <div class="form-floating my-2 col-auto">
+        <input type="text" class="form-control" id="nvmdp" name="nvmdp" value="{{Prenom}}" disabled/>
+        <label class="form-label" for="nvmdp">Prénom</label>
+    </div>
+    <div class="form-floating my-2 col-auto">
+        <input type="text" class="form-control" id="nvmdpcnf" value="{{Identifiant}}" disabled/>
+        <label for="nvmdpcnf">{%if session['role']=='eleve'%} Numéro d'étudiant {%else%} Adresse Mail {%endif%}</label>
+    </div>
+    <div class="form-floating my-2 col-auto">
+        <input type="password" class="form-control" id="anmdp" name="anmdp" placeholder="Entrer votre ancien mot de passe" required/>
+        <label for="anmdp">Entrer votre ancien Mot De Passe</label>
+    </div>
+    <div class="form-floating my-2 col-auto">
+        <input type="password" class="form-control" id="nvmdp" name="nvmdp" placeholder="Entrer Votre nouveau mot de passe" required/>
+        <label for="nvmdp">Entrer nouveau mot de passe</label>
+    </div>
+    <div class="form-floating my-2 col-auto">
+        <input type="password" class="form-control" id="nvmdpcnf" name="nvmdpcnf" placeholder="confirmer le mot de passe" required/>
+        <label for="nvmdpcnf">confirmer nouveau mot de passe</label>
+    </div>
+    <p>{{MsgErreur}}</p>
+    <div class="form-group my-2 text-center">
+        <button type="submit" class="btn btn-primary">Changer le mot de passe</button>
+    </div>
+</form>
+</div>
+{% endblock %}

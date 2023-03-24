@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+<h1 class="text-center w-100 mt-5">Statistiques de participations</h1>
+<div class="d-flex flex-row justify-content-center m-5">
+<a class="btn btn-outline-success col-auto text-center" href="{{url_for('statsResultats')}}">Voir Les Résultats</a>
+</div>
+<div class="d-flex flex-row justify-content-center m-5">
+    <form class="form form-inline" method="POST" >
+        <div class="form-group row ">
+            <label for="dateDebut" class="col-form-label col-auto">Du</label>
+            <div class="col-auto">
+                <input type="date" class="form-control mb-2" id="dateDebut" name="dateDebut">
+            </div>
+            <label for="dateFin" class="col-form-label col-auto">au</label>
+            <div class="col-auto">
+                <input type="date" class="form-control" id="dateFin" name="dateFin">
+            </div>
+            <div class="form-group col-auto">
+                <button class="btn btn-outline-secondary" type="submit">Filtrer</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+    <div class="w-80 m-2">
+        <canvas id="myChart"></canvas>
+    </div>
+
+<div id="listeStats" hidden>{{liste}}</div>
+
+<script>
+    var data = document.getElementById('listeStats').innerHTML;
+    const jsonString = data.replace(/\(/g, '[').replace(/\)/g, ']').replace(/'/g, '"');
+    var data = JSON.parse(jsonString);
+
+    var labels = [];
+    var values = [];
+    var titre = []
+
+    for (var i = 0; i < data.length; i++) {
+        labels.push(data[i][1]); // date
+        values.push(data[i][2]); // NbParticipants
+        titre.push(data[i][0]);
+    }
+
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+    type: 'bar', 
+        data: {
+        labels: labels,
+        datasets: [{
+            label: 'Nombre de participants',
+            data: values,
+            backgroundColor: '#c6b03f'
+        }]
+        },
+        options: {
+        scales: {
+            xAxes: [{
+            ticks: {
+                beginAtZero: true 
+            },
+            }],
+            yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+            }]
+        },
+        tooltips: {
+        callbacks: {
+            title: function(tooltipItems, data) {
+                return titre[tooltipItems[0].index];
+            },
+            label: function(tooltipItem, data) {
+                return 'Nombre de participants : ' + tooltipItem.yLabel;
+            }
+        }
+    }}
+});
+
+</script>
+{%endblock%}

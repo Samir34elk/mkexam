@@ -6,8 +6,8 @@
 
 {% block content %}
     {% if not(session['connecter']) %}
-    <div class="position-absolute top-50 start-50 translate-middle">
-        <div class="card bg2 border-light card-body ">
+    <div class="d-flex justify-content-center align-items-center w-100 h-100 p-5">
+        <div class="card bg2 border-light p-5 ">
             <form method="POST" action="{{url_for('login')}}">
                 <h1 class="card-title text-center mb-3">Connexion</h1>
                 {% if login and not(mdp) %}
@@ -42,9 +42,9 @@
     </div>
     {% else %}
         {% if session['role'] == 'professeur' %}
-        <div class="d-flex justify-content-start text-center col-md-9 mx-auto mt-5 row">
+        <div class="d-flex justify-content-center text-center col-md-9 mx-auto mt-5 row">
             
-            <div class="col-sm-auto m-3">
+            <div class="col-sm-auto m-sm-3 my-3">
                 <div class="card acceuil">
                     <img class="card-img-top" src="/static/img/prof-edit-exam.png" alt="" height="200px" >
                     <div class="card-body">
@@ -56,7 +56,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-auto m-3">
+            <div class="col-sm-auto m-sm-3 my-3">
                 <div class="card acceuil">
                     <img class="card-img-top" src="/static/img/img-liveExam.png" alt="" height="200px">
                     <div class="card-body">
@@ -64,11 +64,11 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item acceuil"><a href="{{ url_for('LiveExam') }}">Lancer une séquence</a></li>
-                        <li class="list-group-item acceuil"><a href="{{url_for('questions')}}">Analyse résultats</a></li>
+                        <li class="list-group-item acceuil"><a href="{{url_for('stats')}}">Analyse résultats</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="col-sm-auto m-3">
+            <div class="col-sm-auto m-sm-3 my-3">
                 <div class="card acceuil">
                     <img class="card-img-top" src="/static/img/parametres.png" alt="" height="200px">
                     <div class="card-body">
@@ -76,36 +76,40 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item acceuil"><a href="{{ url_for('ajouterLesEtudiants') }}">Ajouter des étudiants</a></li>
-                        <li class="list-group-item acceuil"><a href="{{url_for('questions')}}">Mon Compte</a></li>
+                        <li class="list-group-item acceuil"><a href="{{url_for('changerMdpEtu')}}">Mon Compte</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         {%else%}
-        <div class="d-flex justify-content-start text-center col-md-9 mx-auto mt-5 row">
-            <div class="col-sm-auto m-3">
+        <div class="d-flex justify-content-center text-center col-md-9 mx-auto mt-5 row">
+            <div class="col-sm-auto m-sm-3 my-3">
                 <div class="card acceuil">
                     <img class="card-img-top" src="/static/img/img-liveExam.png" alt="" height="200px">
                     <div class="card-body">
                         <h4 class="card-title">LiveExam</h4>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item acceuil"><a href="{{ url_for('LiveExam') }}">Lancer une séquence</a></li>
+                        <li class="list-group-item acceuil"><a href="{{ url_for('LiveExam') }}">Rejoindre une séquence</a></li>
                     </ul>
                 </div>
             </div>        
-            <div class="col-sm-auto m-3">
+            <div class="col-sm-auto m-sm-3 my-3">
                 <div class="card acceuil">
                     <img class="card-img-top" src="/static/img/parametres.png" alt="" height="200px">
                     <div class="card-body">
                         <h4 class="card-title">Paramètres</h4>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item acceuil"><a href="{{ url_for('acceuil') }}">Mon compte</a></li>
+                        <li class="list-group-item acceuil"><a href="{{ url_for('changerMdpEtu') }}">Mon compte</a></li>
                     </ul>
                 </div>
             </div>
+            <div class="h-25 opacity-0">
+                tricheur
+            </div>
         </div>
+
         {%endif%}
     {% endif %}
 </div>
